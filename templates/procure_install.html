@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+  <ul class="dashboard-sidebar">
+    <li><a href="/procure_install" class="sidebar-link {% if active_option == 'MRF' %}active{% endif %}"><strong>MRF</strong></a></li>
+    <li> </li>
+    <li><a href="/pr" class="sidebar-link {% if active_option == 'PR' %}active{% endif %}"><strong>PR</strong></a></li>
+    <li> </li>
+    <li><a href="/po" class="sidebar-link {% if active_option == 'PO' %}active{% endif %}"><strong>PO</strong></a></li>
+    <li> </li>
+    <li><a href="/grn" class="sidebar-link {% if active_option == 'GRN' %}active{% endif %}"><strong>GRN</strong></a></li>
+    <li> </li>
+    <li><a href="/issued_to_use" class="sidebar-link {% if active_option == 'Issued to use' %}active{% endif %}"><strong>Issued to use</strong></a></li>
+    <li> </li>
+  </ul>
+
+  <div class="dashboard-main">
+    <table class="dashboard-table">
+      <thead>
+        {% if active_option == 'PR' %}
+        <tr>
+          <th>PR_No</th>
+          <th>PR_DateTime</th>
+          <th>PR_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>PR Status</th>
+          <th>Remark</th>
+        </tr>
+        {% elif active_option == 'PO' %}
+        <tr>
+          <th>PO_No</th>
+          <th>PO_DateTime</th>
+          <th>PO_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>PO Status</th>
+          <th>Remark</th>
+        </tr>
+        
+        {% elif active_option == 'GRN' %}
+        <tr>
+          <th>GRN_No</th>
+          <th>GRN_DateTime</th>
+          <th>GRN_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>GRN Status</th>
+          <th>Remark</th>
+        </tr>
+        
+        {% elif active_option == 'Issued to use' %}
+        <tr>
+          <th>Issued to use_No</th>
+          <th>Issued to use_DateTime</th>
+          <th>Issued to use_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>Issued to use Status</th>
+          <th>Remark</th>
+        </tr>
+        
+        {% else %}
+        <tr>
+          <th>MRF_No</th>
+          <th>MRF_DateTime</th>
+          <th>MRF_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>MRF Status</th>
+          <th>Remark</th>
+        </tr>
+        {% endif %}
+      </thead>
+      <tbody>
+        {% if entries %}
+          {% for entry in entries %}
+          <tr>
+            <td>{{ entry.No }}</td>
+            <td>{{ entry.DateTime }}</td>
+            <td>{{ entry.Requester }}</td>
+            <td>{{ entry.Material_Service }}</td>
+            <td>{{ entry.Item_Description }}</td>
+            <td>{{ entry.Status }}</td>
+            <td>{{ entry.Remark }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" style="text-align:center;">No data available</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <form method="POST" action="">
+      <div class="insert-section">
+        <strong>Insert {{ active_option }} Status Data</strong>
+        <button type="submit" class="insert-button">Insert Button</button>
+    </div>
+
+    <table class="dashboard-table">
+      <thead>
+        {% if active_option == 'PR' %}
+        <tr>
+          <th>PR_No</th>
+          <th>PR_DateTime</th>
+          <th>PR_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>PR Status</th>
+          <th>Remark</th>
+        </tr>
+        {% elif active_option == 'PO' %}
+        <tr>
+          <th>PO_No</th>
+          <th>PO_DateTime</th>
+          <th>PO_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>PO Status</th>
+          <th>Remark</th>
+        </tr>
+        {% elif active_option == 'GRN' %}
+        <tr>
+          <th>GRN_No</th>
+          <th>GRN_DateTime</th>
+          <th>GRN_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>GRN Status</th>
+          <th>Remark</th>
+        </tr>
+        {% elif active_option == 'Issued to use' %}
+        <tr>
+          <th>Issued to use_No</th>
+          <th>Issued to use_DateTime</th>
+          <th>Issued to use_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>Issued to use Status</th>
+          <th>Remark</th>
+        </tr>
+        {% else %}
+        <tr>
+          <th>MRF_No</th>
+          <th>MRF_DateTime</th>
+          <th>MRF_Requester</th>
+          <th>Material/Service</th>
+          <th>Item Description</th>
+          <th>MRF Status</th>
+          <th>Remark</th>
+        </tr>
+        {% endif %}
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" name="{{ active_option }}_No" placeholder="{{ active_option }} No"></td>
+          <td><input type="datetime-local" name="{{ active_option }}_DateTime" placeholder="{{ active_option }} DateTime"></td>
+          <td><input type="text" name="{{ active_option }}_Requester" placeholder="{{ active_option }} Requester"></td>
+          <td><input type="text" name="Material_Service" placeholder="Material/Service"></td>
+          <td><input type="text" name="Item_Description" placeholder="Item Description"></td>
+          <td><input type="text" name="{{ active_option }}_Status" placeholder="{{ active_option }} Status"></td>
+          <td><input type="text" name="Remark" placeholder="Remark"></td>
+        </tr>
+      </tbody>
+    </table>
+    </form>
+  </div>
+</div>
+{% endblock %}
